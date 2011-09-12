@@ -1,0 +1,6 @@
+# stuff thats shouldn't be in the repo
+data/*
+images/map/*
+
+# Backups
+*~
