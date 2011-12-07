@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>{% block title %}Gruvdrift{% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link href='http://fonts.googleapis.com/css?family=Signika|Geo' rel='stylesheet' type='text/css'/>
+    <link href="/static/css/master.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <div id="Logo">
+      Gruvdrift {% block subtitle %}{% endblock %}
+    </div>
+
+    <div id="Creeper">
+      <img src="/static/img/creeper.png" alt=""/>
+    </div>
+
+    <ul class="menu">
+      <li class="currentpage menu">Start</li>
+
+      
+      {% if is_logged_in %}
+      <li class="menu"><a href="/auth">Logout</a>
+      {% else %}
+      <li class="menu"><a href="/auth">Login</a>
+      {% endif %}
+
+    </ul>
+
+    <div id="Contents">
+      <h1>{% block page_title %}oh noes I lack page_title :({% endblock %}</h1>
+      {% block content %}Why am I empty :({% endblock %}
+    </div>
+  </body>
+</html>
