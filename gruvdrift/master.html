@@ -18,10 +18,10 @@
     </div>
 
     <ul class="menu">
-      <li class="currentpage menu">Start</li>
+      <li class="currentpage menu"><a href="/">Start</a></li>
 
       
-      {% if is_logged_in %}
+      {% if user.is_authenticated %}
       <li class="menu"><a href="/auth">Logout</a>
       {% else %}
       <li class="menu"><a href="/auth">Login</a>

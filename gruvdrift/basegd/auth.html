@@ -1,9 +1,20 @@
 {% extends "master.html" %}
 
+{% block page_title %}Auth system{% endblock %}
+
 {% block content %}
-  {% if is_logged_in %}
-    Nanananana welcome?
-  {% else %}
-    Wanna login? nah not posible yet.
+  {% if login_failed %}
+    <p id="Error">{{ login_failed }}</p>
   {% endif %}
+
+  <form class="login" method="POST">
+    {% csrf_token %}
+    <label for="user">Username:</label>
+    <input type="text" id="user" name="user" /><br />
+    <label for="pass">Password:</label>
+    <input type="password" id="pass" name="pass" /><br />
+    <input type="submit" value="Login" />
+  </form>
+
+  <a href="/signup/">Create a new account</a>
 {% endblock %}

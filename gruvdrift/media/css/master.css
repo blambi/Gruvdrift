@@ -33,10 +33,43 @@ a
     color: white;
 }
 
+form.login
+{
+    padding: 1em;
+    width: 20em;
+}
+
+.login label, .login input
+{
+    display: block;
+    width: 10em;
+    float: left;
+    margin-bottom: 0.4em;
+}
+
+.login input[type="submit"]
+{
+    width: 5em;
+    margin-right: 2em;
+    float: right;
+}
+
+.login label
+{
+    text-align: right;
+    padding-right: 1em;
+}
+
+.login br
+{
+    clear: left;
+}
+
 #Contents
 {
     padding-left: 1em;
     padding-right: 1em;
+    padding-bottom: 1em;
     border: 2px solid #DEDEDE;
     background: url( "/static/img/bg2.png" );
 }
@@ -147,4 +180,9 @@ h1, h2, h3, .menu, #Logo
     position: absolute;
     right: 3em;
     top: 1em;
+}
+
+#Error
+{
+    color: red;
 }
