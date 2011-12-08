@@ -18,7 +18,7 @@ urlpatterns = patterns('',
 
     # basegd (move to separate file later)
     (r'^auth/$', 'basegd.views.auth'),
-    (r'^$', 'basegd.views.index'),
+    (r'^$', 'news.views.index'),
 )
 
 if settings.DEBUG:

@@ -1,0 +1,17 @@
+{% extends "master.html" %}
+
+{% block page_title %}News{% endblock %}
+
+{% block content %}
+
+  {% for news in latest_news %}
+    <div class="news">
+      <h3>{{ news.pub_date.date }}</h3>
+      <ul>
+        {% for item in news.news_item_set.all %}
+          <li>{{ item.text }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+{% endblock %}

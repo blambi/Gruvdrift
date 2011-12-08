@@ -97,4 +97,5 @@ INSTALLED_APPS = (
 
     # our apps
     'basegd',
+    'news',
 )
