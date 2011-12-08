@@ -1,5 +1,7 @@
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.contrib.auth.models import User
 from wohaapi.models import Game_Sessions
 
@@ -43,3 +45,8 @@ def logout( req, username ):
 def get_online( req ):
     # maybe use wohasocks own for this?
     return HttpResponse( "none" )
+
+
+# Non API pages
+def online( req ):
+    return render_to_response( "wohaapi/online.html", RequestContext( req ) )
