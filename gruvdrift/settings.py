@@ -102,6 +102,7 @@ INSTALLED_APPS = (
     'basegd',
     'news',
     'wohaapi',
+    'maps',
 )
 
 AUTH_PROFILE_MODULE = 'basegd.UserProfile'

@@ -19,6 +19,8 @@ urlpatterns = patterns('',
     # basegd (move to separate file later)
     (r'^auth/$', 'basegd.views.auth'),
     (r'^wohaapi/', include( 'wohaapi.urls')),
+    (r'^online/', 'wohaapi.views.online' ),
+    (r'^map/', 'maps.views.index' ),
     (r'^$', 'news.views.index'),
 )
 

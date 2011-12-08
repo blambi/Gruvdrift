@@ -1,0 +1,19 @@
+{% extends "master.html" %}
+
+{% block page_title %}Map{% endblock %}
+
+{% block content %}
+<div id="map">
+  <a name="map"></a>
+  {% for row in parts %}
+    {% for part in row %}
+      {% if part.center %}
+        <img class="mappart" src="/static/{{ part.img }}"/>
+      {% else %}
+        <a href="?x={{part.x}}&amp;y={{part.y}}#map"><img class="mappart" src="/static/{{ part.img }}"/></a>
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+</div>
+<div id="aftermap"> </div>
+{% endblock %}

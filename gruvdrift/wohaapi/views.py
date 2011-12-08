@@ -7,7 +7,7 @@ from wohaapi.models import Game_Sessions
 
 def auth( req, username ):
     try:
-        user = User.objects.get( username=username )
+        user = User.objects.get( username__iexact=username )
     except:
         return HttpResponse( "NOT_WHITELISTED" )
 
@@ -41,11 +41,6 @@ def ping( req, username ):
 
 def logout( req, username ):
     return HttpResponse( "not ready" )
-
-def get_online( req ):
-    # maybe use wohasocks own for this?
-    return HttpResponse( "none" )
-
 
 # Non API pages
 def online( req ):
