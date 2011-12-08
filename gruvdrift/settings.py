@@ -29,6 +29,9 @@ DATABASES = {
 # system time zone.
 TIME_ZONE = 'Europe/Stockholm'
 
+# default format
+DATE_FORMAT = "Y-m-d"
+
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
@@ -41,7 +44,7 @@ USE_I18N = True
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale
-USE_L10N = True
+USE_L10N = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"

@@ -22,7 +22,7 @@
 
       
       {% if user.is_authenticated %}
-      <li class="menu"><a href="/auth">Logout</a>
+      <li class="menu"><a href="/auth">Logout {{user}}</a>
       {% else %}
       <li class="menu"><a href="/auth">Login</a>
       {% endif %}
