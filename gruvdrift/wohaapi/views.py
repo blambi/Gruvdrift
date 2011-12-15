@@ -5,6 +5,8 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from wohaapi.models import Game_Sessions
 
+import datetime
+
 def auth( req, username ):
     try:
         user = User.objects.get( username__iexact=username )
@@ -36,6 +38,7 @@ def auth( req, username ):
 
 def ping( req, users ):
     # update sessions
+    any_p = False
     if users.find( '|' ) != -1:
         users = users.split('|')
     else:
@@ -48,14 +51,27 @@ def ping( req, users ):
             continue # just skip bad ones...
 
         try:
-            gs = Game_Sessions.get( user=user, timedout=False )
+            #timeout = datetime.datetime.now() - datetime.timedelta( minutes=2 )
+            #gs = Game_Sessions.objects.get( user=user, last_ping__lt = timeout )
+            gsx = Game_Sessions.objects.filter( user=user )
+            gs = filter( lambda x: not x.timedout(), gsx )
+            #last_ping < timeout, gsx ) #timedout()
+            
         except:
-            return HttpResponse( "GSF" )
             continue # sadly it had timedout
 
-        gs.ping()
+        any_p = True
+        if gs == []:
+            continue
         
-    return HttpResponse( "PONG" )
+        for x in gs:
+            x.ping()
+        #gs.ping()
+
+    if any_p:
+        return HttpResponse( "PONG" )
+    else:
+        return HttpResponse( "PLONK" )
 
 def logout( req, username ):
     return HttpResponse( "not ready" )
