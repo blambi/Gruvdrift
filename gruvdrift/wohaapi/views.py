@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from wohaapi.models import Game_Sessions
 
-import datetime
+#import datetime
 
 def auth( req, username ):
     try:
@@ -31,6 +31,7 @@ def auth( req, username ):
 
 
     if ret.startswith( "OK" ):
+        # close all runaway sessions
         # add to online list
         pass
     
@@ -51,22 +52,16 @@ def ping( req, users ):
             continue # just skip bad ones...
 
         try:
-            #timeout = datetime.datetime.now() - datetime.timedelta( minutes=2 )
-            #gs = Game_Sessions.objects.get( user=user, last_ping__lt = timeout )
-            gsx = Game_Sessions.objects.filter( user=user )
-            gs = filter( lambda x: not x.timedout(), gsx )
-            #last_ping < timeout, gsx ) #timedout()
+            gs = Game_Sessions.objects.filter( user=user ).order_by( '-logged_in' )[0]
             
         except:
             continue # sadly it had timedout
 
-        any_p = True
-        if gs == []:
+        if gs.timedout():
             continue
-        
-        for x in gs:
-            x.ping()
-        #gs.ping()
+
+        any_p = True
+        gs.ping()
 
     if any_p:
         return HttpResponse( "PONG" )

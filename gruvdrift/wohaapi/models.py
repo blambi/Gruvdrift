@@ -4,7 +4,7 @@ import datetime
 
 # Create your models here.
 class Game_Sessions( models.Model ):
-    user = models.ForeignKey( User, unique=True )
+    user = models.ForeignKey( User, unique=False )
     logged_in = models.DateTimeField()
     last_ping = models.DateTimeField()
     duration = models.PositiveIntegerField()
