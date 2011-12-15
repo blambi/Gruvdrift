@@ -10,5 +10,5 @@ class UserProfile(models.Model):
     banned = models.BooleanField( default=False )
     ban_reason = models.CharField( max_length = 100, blank = True )
     warning = models.CharField( max_length = 100, blank = True )
-    invited_by = models.CharField( max_length = 20, blank = True ) # ugly but will have to do
+    invited_by = models.ForeignKey( User, null = True, related_name="invitee" )
 

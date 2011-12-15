@@ -34,10 +34,28 @@ def auth( req, username ):
     
     return HttpResponse( ret )
 
-def ping( req, username ):
-    # update session: last_ping and online
-    # if session is set to offline (via for example admin) then kick user.
-    return HttpResponse( "not ready" )
+def ping( req, users ):
+    # update sessions
+    if users.find( '|' ) != -1:
+        users = users.split('|')
+    else:
+        users = [ users ]
+
+    for u in users:
+        try:
+            user = User.objects.get( username__iexact=u )
+        except:
+            continue # just skip bad ones...
+
+        try:
+            gs = Game_Sessions.get( user=user, timedout=False )
+        except:
+            return HttpResponse( "GSF" )
+            continue # sadly it had timedout
+
+        gs.ping()
+        
+    return HttpResponse( "PONG" )
 
 def logout( req, username ):
     return HttpResponse( "not ready" )
