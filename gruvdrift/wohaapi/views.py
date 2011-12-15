@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from wohaapi.models import Game_Sessions
 
-#import datetime
+import datetime
 
 def auth( req, username ):
     try:
@@ -31,9 +31,10 @@ def auth( req, username ):
 
 
     if ret.startswith( "OK" ):
-        # close all runaway sessions
         # add to online list
-        pass
+        gs = Game_Sessions( user=user, logged_in = datetime.datetime.now(),
+                           last_ping = datetime.datetime.now(), duration = 0 )
+        gs.save()
     
     return HttpResponse( ret )
 
