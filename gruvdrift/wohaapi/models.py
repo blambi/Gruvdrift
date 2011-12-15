@@ -8,7 +8,7 @@ class Game_Sessions( models.Model ):
     logged_in = models.DateTimeField()
     last_ping = models.DateTimeField()
     duration = models.PositiveIntegerField()
-    #online = models.BooleanField()
+    online = models.BooleanField()
     
     def __unicode__( self ):
         return self.user.username

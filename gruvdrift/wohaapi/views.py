@@ -33,7 +33,8 @@ def auth( req, username ):
     if ret.startswith( "OK" ):
         # add to online list
         gs = Game_Sessions( user=user, logged_in = datetime.datetime.now(),
-                           last_ping = datetime.datetime.now(), duration = 0 )
+                            last_ping = datetime.datetime.now(), duration = 0,
+                            online = True )
         gs.save()
     
     return HttpResponse( ret )
@@ -53,7 +54,7 @@ def ping( req, users ):
             continue # just skip bad ones...
 
         try:
-            gs = Game_Sessions.objects.filter( user=user ).order_by( '-logged_in' )[0]
+            gs = Game_Sessions.objects.filter( user=user, online=True ).order_by( '-logged_in' )[0]
             
         except:
             continue # sadly it had timedout
@@ -70,7 +71,27 @@ def ping( req, users ):
         return HttpResponse( "PLONK" )
 
 def logout( req, username ):
-    return HttpResponse( "not ready" )
+    def doit( username ):
+        try:
+            user = User.objects.get( username__iexact=username )
+        except:
+            return "UNF"
+
+        try:
+            gs = Game_Sessions.objects.filter( user=user ).order_by( '-logged_in' )[0]
+            
+        except:
+            return "GSF"
+
+        if gs.timedout() or not gs.online:
+            return "ALREADY_OUT"
+
+        gs.online = False
+        gs.ping()        
+        return "OK"
+
+    ret = doit( username )
+    return HttpResponse( ret )
 
 # Non API pages
 def online( req ):
