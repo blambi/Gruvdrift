@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     (r'^$', 'news.views.index'),
 )
 
-if settings.DEBUG:
+if settings.DEBUG and settings.LDEVPATH:
     urlpatterns += patterns(
         'django.views.static',
         (r'^static/(?P<path>.*)$', 

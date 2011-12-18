@@ -1,7 +1,11 @@
 # Django settings for gruvdrift project.
 
 DEBUG = True
+LDEVPATH = True
+
+#DEBUG = False
 TEMPLATE_DEBUG = DEBUG
+FORCE_SCRIPT_NAME = ""
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
