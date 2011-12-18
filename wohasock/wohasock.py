@@ -244,7 +244,9 @@ class Client( threading.Thread ):
 
                     # Just send all trough
                     self.lowlevel_send( buff )
-                        
+
+        # log out
+        self.api.logout( self.user )
 
         # close server con
         self.server_sock.shutdown( socket.SHUT_RDWR )
@@ -360,9 +362,8 @@ class WohaAPI:
         if resp.startswith( "BANNED" ):
             self.banned = True
             self.reason = resp.split( ':' )[1]
-            return
 
-        if resp.startswith( "OK" ):
+        elif resp.startswith( "OK" ):
             self.whitelisted = True
 
             for flag in flags:
@@ -371,12 +372,18 @@ class WohaAPI:
                 elif flag.startswith( "WARNING" ):
                     self.warning = flag.split( ':' )[1]
 
+    def logout( self, username ):
+        resp = self.__llget( self.url + "logout/" + username + "/" )
+
     def ping( self, usernames ):
+        """Returns false if one or more of the pinged users have timedout"""
         pingstr = "|".join( usernames )
         resp = self.__llget( self.url + "ping/" + pingstr )
 
         # do stuff!
-
+        if resp == "PONG":
+            return True
+        return False
                 
         
 class Accountant( threading.Thread ):
@@ -412,7 +419,8 @@ class Accountant( threading.Thread ):
             online_counter -= 1
             if online_counter <= 0:
                 online_counter = 60
-                self.write_online_list()            
+                self.write_online_list()
+                self.wohaapi_ping()
 
         print "Accountant dieing"
             
