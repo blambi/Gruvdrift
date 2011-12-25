@@ -4,6 +4,17 @@
 
 {% block content %}
 
-Blah bla blah blah
+<p>
+  Online: 
+  {% if not online_users %}
+  no one :(
+  {% endif %}
+  {% for player in online_users %}
+  <a href="/profile/{{ player.username }}">{{ player.username }}</a>, 
+  {% endfor %}
+</p>
+
+<h2>Players total gaming time</h2>
+<p>Will be added later</p>
 
 {% endblock %}

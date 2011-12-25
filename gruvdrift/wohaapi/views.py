@@ -100,4 +100,9 @@ def logout( req, username ):
 
 # Non API pages
 def online( req ):
-    return render_to_response( "wohaapi/online.html", RequestContext( req ) )
+    online_users = map( lambda gs: gs.user,
+                        filter( lambda gs: not gs.timedout(),
+                                Game_Sessions.objects.filter( online = True )
+                                ))
+    c = RequestContext( req, { 'online_users': online_users } )
+    return render_to_response( "wohaapi/online.html", c )
