@@ -12,5 +12,3 @@ def create( key ):
 def validate( key, code ):
     ctrl_code = create( key )
     return ctrl_code == code
-
-              

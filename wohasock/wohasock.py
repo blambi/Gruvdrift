@@ -99,7 +99,7 @@ class Client( threading.Thread ):
 
                     if self.api.banned:
                         print "Kick since it a banned one"
-                        self.send_kick( "Your banned: %s.. :/" % self.api.reason )
+                        self.send_kick( "Your banned: %s" % self.api.reason )
                         break
 
                     if not self.api.whitelisted:
@@ -361,7 +361,7 @@ class WohaAPI:
 
         if resp.startswith( "BANNED" ):
             self.banned = True
-            self.reason = resp.split( ':' )[1]
+            self.reason = resp.split( ':', 1 )[1]
 
         elif resp.startswith( "OK" ):
             self.whitelisted = True

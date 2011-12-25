@@ -20,7 +20,7 @@ def auth( req, username ):
         return HttpResponse( "BANNED:%s" % profile.ban_reason )
 
     if not profile.unlocked:
-        return HttpResponse( "BANNED: use key %s to unlock at %s" %(
+        return HttpResponse( "BANNED:Use key %s to unlock at %s" %(
                 libunlock.create( username ),
                 "http://gruvdrift.se/unlock/%s" % username ) )
     
