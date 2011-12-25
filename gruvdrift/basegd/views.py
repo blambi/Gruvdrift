@@ -64,9 +64,24 @@ def unlock( req, username ):
         unlock_failed = "Your already unlocked."
         #unlock_failed = libunlock.create( username )
     
-    if req.POST.has_key( 'code' ):
+    if req.POST.has_key( 'code' ) and req.POST.has_key( 'pass' ) and \
+            req.POST.has_key( 'pass2' ):
         # Check code
-        pass
+        if libunlock.validate( username, req.POST['code'] ):
+            pass
+        else:
+            unlock_failed = "Nope that code wan't valid"
+
+        if req.POST['pass'] == req.POST['pass2']:
+            # set password and check profile unlock
+            profile.unlocked = True
+            profile.save()
+            user.set_password( req.POST['pass'] )
+            user.save()
+            c = RequestContext( req, { 'username': username } )
+            return render_to_response( "basegd/unlock-unlocked.html", c )
+        else:
+            unlock_failed = "Password mismatch."
     
     c = RequestContext( req, { 'unlock_failed': unlock_failed } )
     return render_to_response( "basegd/unlock.html", c )
