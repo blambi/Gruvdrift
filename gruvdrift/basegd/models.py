@@ -8,6 +8,8 @@ class UserProfile(models.Model):
     whitelisted = models.BooleanField( default=False )
     jailed = models.BooleanField( default=False )
     banned = models.BooleanField( default=False )
+    # check if user haven't unlocked their account
+    unlocked = models.BooleanField( default=False )
     ban_reason = models.CharField( max_length = 100, blank = True )
     warning = models.CharField( max_length = 100, blank = True )
     invited_by = models.ForeignKey( User, null = True, related_name="invitee" )

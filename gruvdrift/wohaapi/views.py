@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from wohaapi.models import Game_Sessions
-
+from  basegd import libunlock
 import datetime
 
 def auth( req, username ):
@@ -18,6 +18,11 @@ def auth( req, username ):
 
     if profile.banned:
         return HttpResponse( "BANNED:%s" % profile.ban_reason )
+
+    if not profile.unlocked:
+        return HttpResponse( "BANNED: use key %s to unlock at %s" %(
+                libunlock.create( username ),
+                "http://gruvdrift.se/unlock/%s" % username ) )
     
     if profile.whitelisted and user.is_active: # is active is a super disable:
         ret = "OK"

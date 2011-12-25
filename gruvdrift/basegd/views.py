@@ -2,6 +2,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.contrib.auth import logout, authenticate, login
 from django.template import RequestContext
+from django.contrib.auth.models import User
+import libunlock
 
 # Create your views here.
 def index( req ):
@@ -44,3 +46,28 @@ def auth( req ):
 
     c = RequestContext( req, { 'login_failed': login_failed } )
     return render_to_response( "basegd/auth.html", c )
+
+def unlock( req, username ):
+    """Used for unlocking new accounts (they get the unlock code from MC kick"""
+    unlock_failed = ""
+    
+    try:
+        user = User.objects.get( username__iexact=username )
+    except:
+        return HttpResponseRedirect( '/' ) # if no such user goto root.
+        #unlock_failed = "Can't find you '%s'" % username
+    
+    profile = user.get_profile()
+
+    
+    if profile.unlocked:
+        unlock_failed = "Your already unlocked."
+        #unlock_failed = libunlock.create( username )
+    
+    if req.POST.has_key( 'code' ):
+        # Check code
+        pass
+    
+    c = RequestContext( req, { 'unlock_failed': unlock_failed } )
+    return render_to_response( "basegd/unlock.html", c )
+    
