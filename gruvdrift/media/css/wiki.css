@@ -1,0 +1,26 @@
+#Wiki_menu
+{
+  width: 10em;
+  float: right;
+  margin-top: -1.3em;
+  background: rgba( 1, 1, 1, 0.5 );
+  border-left: 1px dashed #A8A8A8;
+  font-family: 'Geo', sans-serif;
+}
+
+#Wiki_menu > ul
+{
+  list-style-type: none;
+  padding-top: 0.5em;
+  padding-left: 0.5em;
+}
+
+#Wiki_content
+{
+  width: 32em;
+}
+
+#After_wmenu
+{
+  clear: both;
+}

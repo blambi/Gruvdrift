@@ -13,6 +13,9 @@
     <input type="text" id="user" name="user" /><br />
     <label for="pass">Password:</label>
     <input type="password" id="pass" name="pass" /><br />
+    {% if next_uri %}
+    <input type="hidden" id="next_uri" value="{{ next_uri }}" />
+    {% endif %}
     <input type="submit" value="Login" />
   </form>
 

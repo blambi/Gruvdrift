@@ -12,6 +12,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+LOGIN_URL = "/auth/"
 
 DATABASES = {
     'default': {
@@ -101,12 +102,13 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-
+    
     # our apps
     'basegd',
     'news',
     'wohaapi',
     'maps',
+    'wiki',
 )
 
 AUTH_PROFILE_MODULE = 'basegd.UserProfile'

@@ -67,6 +67,7 @@ form.login
 
 #Contents
 {
+    width: 960px;
     padding-left: 1em;
     padding-right: 1em;
     padding-bottom: 1em;
@@ -178,7 +179,7 @@ h1, h2, h3, .menu, #Logo
 #Creeper
 {
     position: absolute;
-    right: 3em;
+    left: 910px;
     top: 1em;
 }
 

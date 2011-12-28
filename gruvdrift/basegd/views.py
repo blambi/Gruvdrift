@@ -9,13 +9,26 @@ import libunlock
 def index( req ):
     return render_to_response( "basegd/index.html", RequestContext( req ) )
 
+def placeholder( req ):
+    return render_to_response( "basegd/notready.html", RequestContext( req ) )
+
 def auth( req ):
     # do logout if user is logged in, else show loggin form
     # if we get login request login, log them in.
 
+    if req.GET.has_key( 'next' ) and req.GET['next'].startswith( '/' ):
+        next_uri = req.GET['next']
+    elif req.POST.has_key( 'next' ) and req.POST['next'].startswith( '/' ):
+        next_uri = req.GET['next']
+    else:
+        next_uri = None
+
     if req.user.is_authenticated():
         # Do something for authenticated users.
         logout( req )
+        if req.GET.has_key( 'next' ) and req.GET['next'].startswith( '/' ):
+            return HttpResponseRedirect( req.GET['next'] )
+        
         return HttpResponseRedirect( '/' ) # just root
     
     else:
@@ -26,11 +39,15 @@ def auth( req ):
             password = req.POST['pass']
             
             user = authenticate( username=username, password=password )
+            
             if user is not None:
                 if user.is_active:
                     login( req, user )
                     # yay we have an user here :D
-                    return HttpResponseRedirect( '/' ) # just root
+                    if not next_uri:
+                        return HttpResponseRedirect( '/' ) # just root
+                    else:
+                        return HttpResponseRedirect( next_uri )
                 
                 else:
                     # Return a 'disabled account' error message
@@ -44,7 +61,7 @@ def auth( req ):
             # nothing else since that's just showing login form
             login_failed = False
 
-    c = RequestContext( req, { 'login_failed': login_failed } )
+    c = RequestContext( req, { 'login_failed': login_failed, 'next': next_uri } )
     return render_to_response( "basegd/auth.html", c )
 
 def unlock( req, username ):

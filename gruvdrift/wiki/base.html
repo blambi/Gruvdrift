@@ -1,0 +1,19 @@
+{% extends "master.html" %}
+
+{% block head %}<link href="/static/css/wiki.css" rel="stylesheet" type="text/css" />{% endblock %}
+
+{% block page_title %}Wiki{% if wiki_title %} - {{ wiki_title }} {% endif %}{% endblock %}
+
+{% block content %}
+<div id="Wiki_menu">
+  {% block wiki_menu %}Empty?{% endblock %}
+</div>
+
+<div id="Wiki_content">
+  {% block wiki_content %}Nothing here yet.{% endblock %}
+</div>
+
+<div id="After_wmenu"> </div>
+
+
+{% endblock %}

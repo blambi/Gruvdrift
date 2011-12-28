@@ -7,6 +7,7 @@
     <link rel="icon" type="image/png" href="/static/img/favicon.png" />
     <link href='http://fonts.googleapis.com/css?family=Signika|Geo' rel='stylesheet' type='text/css'/>
     <link href="/static/css/master.css" rel="stylesheet" type="text/css" />
+    {% block head %}{% endblock %}
   </head>
 
   <body>
@@ -23,13 +24,13 @@
 
       <li class="menu"><a href="/online/">Online etc</a></li>
       <li class="menu"><a href="/map/">Map</a></li>
-      
+      <li class="menu"><a href="/wiki/">Wiki</a>
+
       {% if user.is_authenticated %}
       <li class="menu"><a href="/auth/">Logout {{user}}</a>
       {% else %}
       <li class="menu"><a href="/auth/">Login</a>
       {% endif %}
-
     </ul>
 
     <div id="Contents">

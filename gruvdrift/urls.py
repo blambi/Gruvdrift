@@ -16,10 +16,15 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
 
-    # basegd (move to separate file later)
+    # pile of placeholders
+    (r'^signup/$', 'basegd.views.placeholder' ),
+    (r'^profile/.*', 'basegd.views.placeholder' ),
+
+    # our homebaked site
     (r'^auth/$', 'basegd.views.auth'),
     (r'^unlock/(?P<username>\w+)$', 'basegd.views.unlock'),
     (r'^wohaapi/', include( 'wohaapi.urls')),
+    (r'^wiki/', 'wiki.views.index' ),
     (r'^online/$', 'wohaapi.views.online' ),
     (r'^map/$', 'maps.views.index' ),
     (r'^$', 'news.views.index'),
