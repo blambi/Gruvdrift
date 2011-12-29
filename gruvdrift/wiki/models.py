@@ -11,6 +11,9 @@ class Revision( models.Model ):
 class Page( models.Model ):
     title = models.CharField( max_length=200, unique=True )
     op_only = models.BooleanField( default=False ) # only op can write
-
+    
     def __unicode__( self ):
         return self.title
+
+    def get_last_revision( self ):
+        return Revision.objects.filter( page=self ).order_by( '-pub_date' )[0]
