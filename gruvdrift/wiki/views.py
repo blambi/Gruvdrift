@@ -22,7 +22,7 @@ def view( req, pagename ):
         # try to fetch the last our last revision.
         revision = page.get_last_revision()
         page_text = None
-        wiki_title = page.title
+        wiki_title = page.title.replace( '_', ' ' )
         
     else:
         revision = None

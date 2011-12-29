@@ -1,4 +1,6 @@
 {% extends "wiki/base.html" %}
+{% load wikitags %}
+{% load markup %}
 
 {% block wiki_menu %}
 <ul>
@@ -12,10 +14,11 @@
 
 {% block wiki_content %}
   {% if revision %}
-    {{ revision.body }}
+{{ revision.body|wikify|markdown }}
   {% else %}
-    {{page_text}}
+{{page_text}}
   {% endif %}
+
 {% endblock %}
 
 
