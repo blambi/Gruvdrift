@@ -10,4 +10,5 @@ def wikify( value ):
     """Mostly expansions to ReST so we get more recognised wiki links"""
     # wander around and fix all the links
     # TODO: add map link / image macro
-    return wiki_link.sub( r'[\1](/wiki/\1)\2', value )
+    output = wiki_link.sub( r'[\1](/wiki/\1)\2', value )
+    return output

@@ -101,6 +101,11 @@ form.login
     float: right;
 }
 
+ul
+{
+    list-style-type: square;
+}
+
 ul.menu
 {
     display: inline;

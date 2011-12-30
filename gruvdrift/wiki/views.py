@@ -5,9 +5,6 @@ from wiki.models import Page # maybe? Revision
 
 # Create your views here.
 def index( req ):
-    #c = RequestContext( req, { 'wiki_title': "Lorem" } )
-    #return render_to_response( "wiki/index.html", c )
-
     # later in real version
     return view( req, "Portal" )
 
