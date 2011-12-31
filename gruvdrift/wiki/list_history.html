@@ -1,1 +1,21 @@
- 
+{% extends "wiki/base.html" %}
+{% load wikitags %}
+{% load markup %}
+
+{% block wiki_menu %}
+<ul>
+  <li><a>Portal</a></li>
+  <li><a>Latest updates</a></li>
+  <li><a>Help</a></li>
+</ul>
+{% endblock %}
+
+    
+    {% for revision in page_revisions %}
+        <a href="">{{ revision.pub_date }}</a> - {{ revision.author }}
+    {% endfor %}
+
+{% endblock %}
+
+
+
