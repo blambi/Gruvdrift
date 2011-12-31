@@ -24,8 +24,9 @@ def view( req, pagename ):
         
     else:
         revision = None
-        page_text = "No such page sorry"
-        wiki_title = "404 sorry"
+        page_text = "New page to create edit this entry."
+        wiki_title = pagename
+        
         
     c = RequestContext( req, { 'wiki_title': wiki_title,
                                'page_text': page_text,

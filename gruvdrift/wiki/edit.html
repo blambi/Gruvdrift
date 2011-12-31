@@ -12,11 +12,14 @@
 {% endblock %}
 
 {% block wiki_content %}
-  {% if revision %}
-{{ revision.body }}
-  {% else %}
-empty page...
-  {% endif %}
+<form class="edit" method="POST">
+    {% csrf_token %}
+    <textarea id="body" name="body" style="width: 100%;" rows="24">{{ revision.body }}</textarea><br />
+    <input type="hidden" id="base_rev" value="{{ base_rev }}" /><br />
+    <div align="right">
+        <input type="submit" value="Save" />
+    </div>
+</form>
 
 {% endblock %}
 
