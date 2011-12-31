@@ -75,3 +75,35 @@ def edit( req, pagename ):
                                'revision': revision } )
     
     return render_to_response( "wiki/edit.html", c )
+
+def help( req ):
+    return render_to_response( "wiki/help.html", RequestContext( req ) )
+
+# for the archaeologists
+@login_required
+def view_history( req, pagename, rev_id ):
+    try:
+        revision = Revision.objects.get( id=rev_id )
+    except:
+        revision = None
+
+    c = RequestContext( req, { 'wiki_title': pagename.replace( '_', ' ' ),
+                               'pagename': pagename,
+                               'revision': revision } )
+
+    return render_to_response( "wiki/view_history.html", c )
+
+@login_required
+def list_history( req, pagename ):
+    try:
+        page = Page.objects.get( title__iexact=pagename )
+    except:
+        page = None
+
+    revisions = Revision.objects.filter( page=page ).order_by( '-pub_date' )
+    
+    c = RequestContext( req, { 'wiki_title': pagename.replace( '_', ' ' ),
+                               'pagename': pagename,
+                               'page_revisions': revisions } )
+    
+    return render_to_response( "wiki/list_history.html", c )

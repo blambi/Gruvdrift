@@ -1,0 +1,27 @@
+{% extends "wiki/base.html" %}
+{% load wikitags %}
+{% load markup %}
+
+{% block wiki_menu %}
+<ul>
+  <li><a>Portal</a></li>
+  <li><a>Latest updates</a></li>
+  <li><a href="/wiki/{{ pagename }}">Latest</a></li>
+  <li><a href="history/{{ pagename }}"><a>History</a></li>
+  <li><a>Help</a></li>
+</ul>
+{% endblock %}
+
+{% block wiki_content %}
+  {% if revision %}
+<div id="Wiki_historical">This is a historical version of this page from {{ revision.pub_date }}</div>
+
+{{ revision.body|wikify|markdown }}
+  {% else %}
+Sorry no such revision, maybe the time police was here?
+  {% endif %}
+
+{% endblock %}
+
+
+

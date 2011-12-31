@@ -10,11 +10,10 @@
 </ul>
 {% endblock %}
 
-    
+{% block wiki_content %}    
     {% for revision in page_revisions %}
-        <a href="">{{ revision.pub_date }}</a> - {{ revision.author }}
+        <a href="{{pagename}}/{{revision.id}}">{{ revision.pub_date }}</a> - {{ revision.author }}
     {% endfor %}
-
 {% endblock %}
 
 
