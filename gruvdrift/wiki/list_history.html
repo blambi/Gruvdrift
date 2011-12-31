@@ -7,7 +7,7 @@
         <div>
         {% if pagename == '' %}
         {{revision.page.title}}:
-        <a href="wiki/{{revision.page.title}}/{{revision.id}}">{{ revision.pub_date }}</a> - {{ revision.author }}
+        <a href="history/{{revision.page.title}}/{{revision.id}}">{{ revision.pub_date }}</a> - {{ revision.author }}
         {% else %}
         <a href="{{pagename}}/{{revision.id}}">{{ revision.pub_date }}</a> - {{ revision.author }}
         {% endif %}
