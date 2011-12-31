@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     # pile of placeholders
     (r'^signup/$', 'basegd.views.placeholder' ),
     (r'^profile/.*', 'basegd.views.placeholder' ),
+    (r'^market/.*', 'basegd.views.placeholder' ),
 
     # our homebaked site
     (r'^auth/$', 'basegd.views.auth'),
