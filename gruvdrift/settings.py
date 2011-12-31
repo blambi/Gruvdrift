@@ -1,4 +1,7 @@
 # Django settings for gruvdrift project.
+from ConfigParser import ConfigParser
+local_cfg = ConfigParser()
+local_cfg.read( "settings-local.conf" )
 
 DEBUG = True
 LDEVPATH = True
@@ -16,12 +19,13 @@ LOGIN_URL = "/auth/"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'gruvdrift',                      # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': 'gurkmeja',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.%s' % local_cfg.get( 'db', 'type' ),
+        'NAME': local_cfg.get( 'db', 'name' ),  # Or path to database file if using sqlite3.
+        'USER': local_cfg.get( 'db', 'user' ),  # Not used with sqlite3.
+        'PASSWORD': local_cfg.get( 'db', 'password' ), # Not used with sqlite3.
+        'HOST': local_cfg.get( 'db', 'host' ), # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': local_cfg.get( 'db', 'port' ), # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -53,12 +57,12 @@ USE_L10N = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/home/patrik/programmering/python/gruvdrift/gruvdrift/media/'
+MEDIA_ROOT = local_cfg.get( 'path', 'media_root' )
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'http://shoggoth.mythos/media/'
+MEDIA_URL = local_cfg.get( 'path', 'media_url' )
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -66,7 +70,7 @@ MEDIA_URL = 'http://shoggoth.mythos/media/'
 ADMIN_MEDIA_PREFIX = '/media/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '$wh5q1ongo48a(o4jlp5i&rhi8plf1)*cu9svep=(&dgf0-0(e'
+SECRET_KEY = local_cfg.get( 'secret', 'key' )
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
