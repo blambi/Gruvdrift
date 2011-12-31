@@ -1,8 +1,9 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from wiki.models import Page # maybe? Revision
+import datetime
+from wiki.models import Page, Revision
 
 # Create your views here.
 def index( req ):
@@ -41,12 +42,24 @@ def ajux( req ):
 
 @login_required
 def edit( req, pagename ):
-    # TODO: Make it able to save stuff
-    
     try:
         page = Page.objects.get( title__iexact=pagename )
     except:
         page = None
+
+    if req.POST.has_key( 'body' ): # We should save something
+        #if req.POST.has_key( 'base_rev' ):
+        # ^ TODO: Add super merging fun time.
+        # ^ TODO: Add op-only check.
+        
+        if not page:
+            page = Page( title=pagename, op_only=False )
+            page.save()
+        
+        rev = Revision( author=req.user, pub_date=datetime.datetime.now(),
+                        body = req.POST['body'], page=page )
+        rev.save()
+        return HttpResponseRedirect( "/wiki/%s" % pagename )
     
     if page:
         # try to fetch the last our last revision.
