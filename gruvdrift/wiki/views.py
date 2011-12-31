@@ -76,9 +76,6 @@ def edit( req, pagename ):
     
     return render_to_response( "wiki/edit.html", c )
 
-def help( req ):
-    return render_to_response( "wiki/help.html", RequestContext( req ) )
-
 # for the archaeologists
 @login_required
 def view_history( req, pagename, rev_id ):
@@ -106,4 +103,15 @@ def list_history( req, pagename ):
                                'pagename': pagename,
                                'page_revisions': revisions } )
     
+    return render_to_response( "wiki/list_history.html", c )
+
+@login_required
+def updates( req ):
+    """Show 10 latest revisions"""
+    revisions = Revision.objects.all().order_by( '-pub_date' )[:10]
+
+    c = RequestContext( req, { 'wiki_title': 'Last 10 updates',
+                               'pagename': '',
+                               'page_revisions': revisions } )
+
     return render_to_response( "wiki/list_history.html", c )

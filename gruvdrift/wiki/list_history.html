@@ -2,9 +2,16 @@
 {% load wikitags %}
 {% load markup %}
 
-{% block wiki_content %}    
+{% block wiki_content %}
     {% for revision in page_revisions %}
+        <div>
+        {% if pagename == '' %}
+        {{revision.page.title}}:
+        <a href="{{revision.page.title}}/{{revision.id}}">{{ revision.pub_date }}</a> - {{ revision.author }}
+        {% else %}
         <a href="{{pagename}}/{{revision.id}}">{{ revision.pub_date }}</a> - {{ revision.author }}
+        {% endif %}
+        </div>
     {% endfor %}
 {% endblock %}
 
