@@ -6,7 +6,12 @@
 
 {% block content %}
 <div id="Wiki_menu">
-  {% block wiki_menu %}Empty?{% endblock %}
+    <ul>
+      <li><a href="/wiki/Portal">Portal</a></li>
+      <li><a href="/wiki/updates">Latest updates</a></li>
+      {% block wiki_menu %}{% endblock %}
+      <li><a href="/wiki/help">Help</a></li>
+    </ul>
 </div>
 
 <div id="Wiki_content">

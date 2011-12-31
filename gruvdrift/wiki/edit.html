@@ -3,12 +3,7 @@
 {% load markup %}
 
 {% block wiki_menu %}
-<ul>
-  <li><a>Portal</a></li>
-  <li><a>Latest updates</a></li>
-  <li><a>History</a></li>
-  <li><a>Help</a></li>
-</ul>
+<li><a href="/wiki/history/{{ pagename }}">History</a></li>
 {% endblock %}
 
 {% block wiki_content %}
