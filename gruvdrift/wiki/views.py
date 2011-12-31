@@ -29,6 +29,7 @@ def view( req, pagename ):
         
         
     c = RequestContext( req, { 'wiki_title': wiki_title,
+                               'pagename': pagename,
                                'page_text': page_text,
                                'revision': revision } )
     return render_to_response( "wiki/view.html", c )
@@ -57,6 +58,7 @@ def edit( req, pagename ):
         wiki_title = pagename.replace( '_', ' ' )
 
     c = RequestContext( req, { 'wiki_title': wiki_title,
+                               'pagename': pagename,
                                'revision': revision } )
     
     return render_to_response( "wiki/edit.html", c )
