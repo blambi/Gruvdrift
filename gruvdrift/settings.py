@@ -3,8 +3,8 @@ from ConfigParser import ConfigParser
 local_cfg = ConfigParser()
 local_cfg.read( "settings-local.conf" )
 
-DEBUG = True
-LDEVPATH = True
+DEBUG = local_cfg.getboolean( 'devel', 'debug' )
+LDEVPATH = local_cfg.getboolean( 'devel', 'ldevpath' )
 
 #DEBUG = False
 TEMPLATE_DEBUG = DEBUG
