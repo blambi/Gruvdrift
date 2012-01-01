@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth import logout, authenticate, login
 from django.template import RequestContext
 from django.contrib.auth.models import User
@@ -67,15 +67,9 @@ def auth( req ):
 def unlock( req, username ):
     """Used for unlocking new accounts (they get the unlock code from MC kick"""
     unlock_failed = ""
-    
-    try:
-        user = User.objects.get( username__iexact=username )
-    except:
-        return HttpResponseRedirect( '/' ) # if no such user goto root.
-        #unlock_failed = "Can't find you '%s'" % username
-    
-    profile = user.get_profile()
 
+    user = get_object_or_404( User, username__iexact=username )
+    profile = user.get_profile()
     
     if profile.unlocked:
         unlock_failed = "Your already unlocked."
@@ -103,3 +97,12 @@ def unlock( req, username ):
     c = RequestContext( req, { 'unlock_failed': unlock_failed } )
     return render_to_response( "basegd/unlock.html", c )
     
+def profile( req, username ):
+    user = get_object_or_404( User, username__iexact=username )
+    profile = user.get_profile()
+    
+    c = RequestContext( req, { 'user': user,
+                               'profile': profile,
+                               'total_playtime': None } )
+    
+    return render_to_response( "basegd/profile.html", c )
