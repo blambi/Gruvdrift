@@ -18,7 +18,6 @@ urlpatterns = patterns('',
 
     # pile of placeholders
     (r'^signup/$', 'basegd.views.placeholder' ),
-    (r'^profile/.*', 'basegd.views.placeholder' ),
     (r'^market/.*', 'basegd.views.placeholder' ),
 
     # our homebaked site
@@ -27,6 +26,7 @@ urlpatterns = patterns('',
     (r'^wohaapi/', include( 'wohaapi.urls' )),
     (r'^wiki/', include( 'wiki.urls' )),
     (r'^online/$', 'wohaapi.views.online' ),
+    (r'^profile/(?P<username>\w+)$', 'basegd.views.profile' ),
     (r'^map/$', 'maps.views.index' ),
     (r'^$', 'news.views.index'),
 )

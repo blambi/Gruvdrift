@@ -1,0 +1,32 @@
+{% extends "master.html" %}
+
+{% block page_title %}Profile for {{ user.username }}{% endblock %}
+
+{% block content %}
+
+<img src="http://www.gruvdrift.se/static/cache/{{ user.username }}.png" /><br />
+
+Invited by: {{ profile.invited_by }} <br \>
+Total time played: {{ total_playtime }} <br \>
+
+{% if profile.unlocked %}
+    {% if profile.whitelisted %}
+        {% if profile.jailed or profile.banned %}
+            {% if profile.banned %}
+Status: Banned
+            {% else %}
+Status: Jailed
+            {% endif %}
+        {% else %}
+Status: Working
+        {% endif %}
+    {% else %}
+Status: Not whitelisted
+    {% endif %}
+
+{% else %}
+Status: Locked
+{% endif %}
+
+
+{% endblock %}
