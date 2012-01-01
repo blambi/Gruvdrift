@@ -13,9 +13,9 @@ Total time played: {{ total_playtime }} <br \>
     {% if profile.whitelisted %}
         {% if profile.jailed or profile.banned %}
             {% if profile.banned %}
-Status: Banned
+Status: Banned - {{ profile.ban_reason }}
             {% else %}
-Status: Jailed
+Status: Jailed - {{ profile.ban_reason }}
             {% endif %}
         {% else %}
 Status: Working

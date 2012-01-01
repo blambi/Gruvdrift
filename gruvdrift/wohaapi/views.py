@@ -104,5 +104,10 @@ def online( req ):
                         filter( lambda gs: not gs.timedout(),
                                 Game_Sessions.objects.filter( online = True )
                                 ))
-    c = RequestContext( req, { 'online_users': online_users } )
+    users_with_playtime = map( lambda p: ( p.username, p.profile.get_total_playtime() ),
+                               filter( lambda p: p.profile.unlocked,
+                                               User.objects.all() ) )
+
+    c = RequestContext( req, { 'online_users': online_users,
+                               'users_with_playtime': users_with_playtime } )
     return render_to_response( "wohaapi/online.html", c )

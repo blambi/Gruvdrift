@@ -15,6 +15,10 @@
 </p>
 
 <h2>Players total gaming time</h2>
-<p>Will be added later</p>
+{% for player in users_with_playtime %}
+<div>
+  {{player.0}}: {{player.1}}
+</div>
+{% endfor %}
 
 {% endblock %}
