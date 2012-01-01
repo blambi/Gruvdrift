@@ -1,7 +1,12 @@
 # Django settings for gruvdrift project.
+from os import environ
 from ConfigParser import ConfigParser
+
 local_cfg = ConfigParser()
-local_cfg.read( "settings-local.conf" )
+if environ.has_key( 'GDHOME' ):
+    local_cfg.read( "%s/settings-local.conf" % environ['GDHOME'] )
+else:
+    local_cfg.read( "settings-local.conf" )
 
 DEBUG = local_cfg.getboolean( 'devel', 'debug' )
 LDEVPATH = local_cfg.getboolean( 'devel', 'ldevpath' )

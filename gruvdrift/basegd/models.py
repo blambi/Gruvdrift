@@ -14,3 +14,5 @@ class UserProfile(models.Model):
     warning = models.CharField( max_length = 100, blank = True )
     invited_by = models.ForeignKey( User, null = True, related_name="invitee" )
 
+
+User.profile = property( lambda u: UserProfile.objects.get_or_create( user=u )[0] )
