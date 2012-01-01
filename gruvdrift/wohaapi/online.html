@@ -17,7 +17,7 @@
 <h2>Players total gaming time</h2>
 {% for player in users_with_playtime %}
 <div>
-  {{player.0}}: {{player.1}}
+  <a href="/profile/{{player.0}}">{{player.0}}</a>: {{player.1}}
 </div>
 {% endfor %}
 

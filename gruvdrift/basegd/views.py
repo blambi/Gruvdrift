@@ -102,8 +102,7 @@ def profile( req, username ):
     profile = user.get_profile()
     total_playtime = profile.get_total_playtime()
 
-    c = RequestContext( req, { 'user': user,
-                               'profile': profile,
+    c = RequestContext( req, { 'profile': profile,
                                'total_playtime': total_playtime } )
     
     return render_to_response( "basegd/profile.html", c )

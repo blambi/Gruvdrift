@@ -1,10 +1,10 @@
 {% extends "master.html" %}
 
-{% block page_title %}Profile for {{ user.username }}{% endblock %}
+{% block page_title %}Profile for {{ profile.user.username }}{% endblock %}
 
 {% block content %}
 
-<img src="http://www.gruvdrift.se/static/cache/{{ user.username }}.png" /><br />
+<img src="/static/cache/{{ profile.user.username }}.png" /><br />
 
 Invited by: {{ profile.invited_by }} <br \>
 Total time played: {{ total_playtime }} <br \>
@@ -18,7 +18,7 @@ Status: Banned - {{ profile.ban_reason }}
 Status: Jailed - {{ profile.ban_reason }}
             {% endif %}
         {% else %}
-Status: Working
+Status: All in working order.
         {% endif %}
     {% else %}
 Status: Not whitelisted
