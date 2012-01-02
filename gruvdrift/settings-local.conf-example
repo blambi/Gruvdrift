@@ -1,0 +1,19 @@
+[db]
+type = mysql
+name = gruvdrift
+user = gruvdrift
+password = PASSME!
+host =
+port =
+
+[path]
+media_root = /srv/www/gruvdrift/media/
+media_url = http://my.gruvdrift.se/media/
+templates = /srv/django/gruvdrift
+
+[secret]
+key = $wh5q1ongo48a(o4jlp5i&rhi8plf1)*cu9svep=(&dgf0-0(e
+
+[devel]
+debug = True
+ldevpath = True
