@@ -57,7 +57,7 @@ def edit( req, pagename ):
     except:
         page = None
 
-    if page.op_only and not req.user.is_staff:
+    if page and page.op_only and not req.user.is_staff:
         return HttpResponseRedirect( "/wiki/%s?error=%s" %(
                 pagename, "Sorry only operators edit this page." ) )
 
