@@ -14,18 +14,22 @@ class UserProfile(models.Model):
     warning = models.CharField( max_length = 100, blank = True )
     invited_by = models.ForeignKey( User, null = True, related_name="invitee" )
 
-    def get_total_playtime( self ):
+    def get_total_playtime_int( self ):
+        """Returns an INT with the total play time, good for sorting"""
         try:
             gs = Game_Sessions.objects.filter( user=self.user ).order_by( 'logged_in' )
         except:
             return None # NO playtime to report
-
 
         total_playtime = 0
 
         for g in gs:
             total_playtime += g.duration
 
+        return int( total_playtime )
+    
+    def get_total_playtime( self ):
+        total_playtime = self.get_total_playtime_int()
         # Will just build a string then
         hours = total_playtime / 3600
         mins  = total_playtime / 60 % 60

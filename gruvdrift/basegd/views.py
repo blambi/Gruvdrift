@@ -100,9 +100,6 @@ def unlock( req, username ):
 def profile( req, username ):
     user = get_object_or_404( User, username__iexact=username )
     profile = user.get_profile()
-    total_playtime = profile.get_total_playtime()
 
-    c = RequestContext( req, { 'profile': profile,
-                               'total_playtime': total_playtime } )
-    
+    c = RequestContext( req, { 'profile': profile } )
     return render_to_response( "basegd/profile.html", c )

@@ -6,26 +6,28 @@
 
 <img src="/static/cache/{{ profile.user.username }}.png" /><br />
 
-Invited by: {{ profile.invited_by }} <br \>
-Total time played: {{ total_playtime }} <br \>
+Invited by: {{ profile.invited_by }}<br \>
+Total time played: {{ profile.get_total_playtime }}<br \>
 
 {% if profile.unlocked %}
-    {% if profile.whitelisted %}
-        {% if profile.jailed or profile.banned %}
-            {% if profile.banned %}
+    {% if profile.banned or profile.whitelisted %}
+        {% if profile.banned %}
 Status: Banned - {{ profile.ban_reason }}
-            {% else %}
-Status: Jailed - {{ profile.ban_reason }}
-            {% endif %}
         {% else %}
+            {% if profile.whitelisted %}
+                {% if profile.jailed  %}
+Status: Jailed - {{ profile.warning }}
+                {% else %}
 Status: All in working order.
+                {% endif %}
+            {% endif %}
         {% endif %}
     {% else %}
 Status: Not whitelisted
     {% endif %}
 
 {% else %}
-Status: Locked
+Status: Still Locked
 {% endif %}
 
 
