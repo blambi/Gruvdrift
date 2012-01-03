@@ -18,6 +18,8 @@
 #Wiki_content
 {
   width: 32em;
+  margin-right:-20px;
+  padding-right:-20px;
 }
 
 #Wiki_content > h1
@@ -30,13 +32,21 @@
 #Wiki_content > h1, #Wiki_content > h2, #Wiki_content > h3, #Wiki_content > h4
 {
     margin-bottom: -0.70em;
-    paddig-bottom: 0em;
+    padding-bottom: 0em;
 }
 
 #Wiki_content > ul
 {
     margin-top: -0.5em;
     padding-top: 0em;
+}
+
+div.Wiki_image
+{
+    position: absolute;
+    left:35em;  /* This is about far enought to the left to clear the text. */
+    border: 1px solid #A8A8A8;
+    padding:10px;
 }
 
 #Wiki_historical
