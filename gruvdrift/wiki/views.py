@@ -27,12 +27,18 @@ def view( req, pagename ):
         revision = None
         page_text = "New page to create edit this entry."
         wiki_title = pagename
-        
+
+    if req.GET.has_key( 'error' ):
+        error = req.GET['error']
+    else:
+        error = None
         
     c = RequestContext( req, { 'wiki_title': wiki_title,
                                'pagename': pagename,
                                'page_text': page_text,
-                               'revision': revision } )
+                               'revision': revision,
+                               'wiki_error': error,
+                               'user': req.user } )
     return render_to_response( "wiki/view.html", c )
 
 @login_required
@@ -42,10 +48,18 @@ def ajux( req ):
 
 @login_required
 def edit( req, pagename ):
+    if req.user.profile.banned:
+        return HttpResponseRedirect( "/wiki/%s?error=%s" %(
+                pagename, "Sorry banned users can't edit the wiki" ) )
+
     try:
         page = Page.objects.get( title__iexact=pagename )
     except:
         page = None
+
+    if page.op_only and not req.user.is_staff:
+        return HttpResponseRedirect( "/wiki/%s?error=%s" %(
+                pagename, "Sorry only operators edit this page." ) )
 
     if req.POST.has_key( 'body' ): # We should save something
         #if req.POST.has_key( 'base_rev' ):

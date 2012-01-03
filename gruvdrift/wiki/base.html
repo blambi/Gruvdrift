@@ -5,6 +5,7 @@
 {% block page_title %}Wiki{% if wiki_title %} - {{ wiki_title }} {% endif %}{% endblock %}
 
 {% block content %}
+{% if wiki_error %}<div id="Error">{{wiki_error}}</div>{% endif %}
 <div id="Wiki_menu">
     <ul>
       <li><a href="/wiki/Portal">Portal</a></li>
