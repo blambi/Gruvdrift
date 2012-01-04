@@ -48,7 +48,7 @@ def ajux( req ):
 
 @login_required
 def edit( req, pagename ):
-    if req.user.profile.banned:
+    if req.user.get_profile().banned:
         return HttpResponseRedirect( "/wiki/%s?error=%s" %(
                 pagename, "Sorry banned users can't edit the wiki" ) )
 

@@ -103,8 +103,8 @@ def online( req ):
                         filter( lambda gs: not gs.timedout(),
                                 Game_Sessions.objects.filter( online = True )
                                 ))
-    users_with_playtime = map( lambda p: ( p.username, p.profile.get_total_playtime(), p.profile.get_total_playtime_int(), p.profile.banned ),
-                               filter( lambda p: p.profile.unlocked and p.profile.whitelisted,
+    users_with_playtime = map( lambda p: ( p.username, p.get_profile().get_total_playtime(), p.get_profile().get_total_playtime_int(), p.get_profile().banned ),
+                               filter( lambda p: p.get_profile().unlocked and p.get_profile().whitelisted,
                                                User.objects.all() ) )
 
     users_with_playtime = sorted( users_with_playtime, cmp=lambda x,y: y[2] - x[2] )
