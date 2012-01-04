@@ -41,6 +41,10 @@
     padding-top: 0em;
 }
 
+#Wiki_content > div > img{
+    max-width:14em;
+}
+
 div.Wiki_image
 {
     position: absolute;
