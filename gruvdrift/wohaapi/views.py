@@ -8,13 +8,12 @@ from  basegd import libunlock
 import datetime
 
 def auth( req, username ):
-    try:
-        user = User.objects.get( username__iexact=username )
-    except:
-        return HttpResponse( "NOT_WHITELISTED" )
+    user, created = User.objects.get_or_create( username=username )
+    if created:
+        user.save()
 
     profile = user.get_profile()
-    ret = "FAIL" 
+    ret = "FAIL"
 
     if profile.banned:
         return HttpResponse( "BANNED:%s" % profile.ban_reason )
@@ -29,7 +28,7 @@ def auth( req, username ):
         if profile.jailed:
             ret += "|JAILED"
 
-        if profile.warning.strip(): # remove emtpy ones...
+        if profile.warning: # remove emtpy ones...
             ret += "|WARNING:%s" % profile.warning
     else:
         ret = "NOT_WHITELISTED"
