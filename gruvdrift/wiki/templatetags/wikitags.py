@@ -8,8 +8,8 @@ wiki_link = re.compile( "\[([A-Za-z_]+)\]([^(])" )
 
 wiki_image = re.compile( "\[(.*?)\]\((.*?)\)" )
 wiki_image_template = """<div class="Wiki_image">
-  <img src="%s" />
-  <p>%s</p>
+  <a href="%(link)s"><img src="%(link)s" /></a>
+  <p>%(text)s</p>
 </div>"""
 
 @register.filter
@@ -25,6 +25,7 @@ def wikify( value ):
         if link.endswith( '.png' ) or link.endswith( '.jpeg' ) or link.endswith( '.jpg' ):
             # we got an image
             output = output.replace( "[%s](%s)" %( title, link ),
-                                     wiki_image_template %( strip_tags( link ),
-                                                            escape( title ) ) )
+                                     wiki_image_template % {
+                    'link': strip_tags( link ),
+                    'text': escape( title ) } )
     return output
