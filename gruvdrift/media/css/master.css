@@ -206,4 +206,5 @@ h1, h2, h3, .menu, #Logo
 #news-container
 {
     float: left;
+    max-width: 700px;
 }
