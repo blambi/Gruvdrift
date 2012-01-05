@@ -4,14 +4,48 @@
 
 {% block content %}
 
-  {% for news in latest_news %}
-    <div class="news">
-      <h3>{{ news.pub_date.date }}</h3>
-      <ul>
-        {% for item in news.news_item_set.all %}
-          <li>{{ item.text }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endfor %}
+  <div id="news-container">
+    {% for news in latest_news %}
+      <div class="news">
+        <h3>{{ news.pub_date.date }}</h3>
+        <ul>
+          {% for item in news.news_item_set.all %}
+            <li>{{ item.text }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="twitter-container">
+    <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+    <script>
+    new TWTR.Widget({
+      version: 2,
+      type: 'profile',
+      rpp: 4,
+      interval: 30000,
+      width: 250,
+      height: 300,
+      theme: {
+        shell: {
+          background: '#333333',
+          color: '#ffffff'
+        },
+        tweets: {
+          background: '#000000',
+          color: '#ffffff',
+          links: '#4aed05'
+        }
+      },
+      features: {
+        scrollbar: false,
+        loop: false,
+        live: true,
+        behavior: 'all'
+      }
+    }).render().setUser('gruvdrift').start();
+    </script>
+  </div>
+  <div class="clear-float"></div>
 {% endblock %}

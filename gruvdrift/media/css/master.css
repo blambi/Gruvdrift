@@ -192,3 +192,18 @@ h1, h2, h3, .menu, #Logo
 {
     color: red;
 }
+
+.twitter-container
+{
+    float: right;
+}
+
+.clear-float
+{
+    clear: both;
+}
+
+#news-container
+{
+    float: left;
+}
