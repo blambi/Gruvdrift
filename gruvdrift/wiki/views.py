@@ -1,9 +1,11 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 import datetime
 from wiki.models import Page, Revision
+from wiki.templatetags.wikitags import wikify
+from django.contrib.markup.templatetags.markup import markdown
 
 # Create your views here.
 def index( req ):
@@ -42,9 +44,11 @@ def view( req, pagename ):
     return render_to_response( "wiki/view.html", c )
 
 @login_required
-def ajux( req ):
-    # TODO: implement me!
-    return
+def ajax_edit_preview( req ):
+    if req.POST.has_key ( 'body' ):
+        formatted_post = markdown(wikify(req.POST['body']))
+        return HttpResponse(formatted_post)
+    return HttpResponse()
 
 @login_required
 def edit( req, pagename ):

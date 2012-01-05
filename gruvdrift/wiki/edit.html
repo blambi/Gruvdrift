@@ -7,11 +7,27 @@
 {% endblock %}
 
 {% block wiki_content %}
+<div id="preview"></div>
+<script type="text/javascript">
+function wiki_preview() {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      document.getElementById('preview').innerHTML = xhr.responseText;
+    }
+  }
+  xhr.open( 'POST', '/wiki/ajax/edit_preview/', true );
+  xhr.send( 'body=' + encodeURIComponent(document.getElementById('body').value) + '&csrfmiddlewaretoken={{ csrf_token }}' );
+
+}
+</script>
+
 <form class="edit" method="POST">
     {% csrf_token %}
     <textarea id="body" name="body" style="width: 100%;" rows="24">{{ revision.body }}</textarea><br />
     <input type="hidden" id="base_rev" value="{{ revision.id }}" /><br />
     <div align="right">
+        <a href="#preview" title="Preview page" onclick="wiki_preview()">Preview</a>
         <input type="submit" value="Save" />
     </div>
 </form>
