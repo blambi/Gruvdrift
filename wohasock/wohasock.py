@@ -36,9 +36,8 @@ class Client( threading.Thread ):
         self.in_game = False
         self.jailed = False
         self.lock = threading.Lock()
-        self.last_pos = ( 0.0, 0.0, 0.0 ) # x, y, z
         self.api = WohaAPI()
-        
+
     def lowlevel_send( self, data ):
         """So we don't overwelm the port client"""
         #if debug:
@@ -47,7 +46,7 @@ class Client( threading.Thread ):
         self.lock.acquire()
         self.sock.sendall( data )
         self.lock.release()
-        
+
     def build_string( self, string ):
         """Returns a string prefixed by a short"""
         return "%s%s" %( struct.pack( ">h", len( string ) ),
@@ -56,13 +55,13 @@ class Client( threading.Thread ):
     def parse_string( self, raw_string ):
         """returns a decoded string"""
         return raw_string.decode( 'utf-16-be' )
-        
+
     def send_chat( self, message, colour='f' ):
         """Use the colours dict for colour..."""
 
         if colour != 'f': # just standard...
             message = u"§%c%s" %( colour, message ) # HACK but works
-            
+
         self.lowlevel_send( "\x03%s" % self.build_string( message ) )
 
     def send_kick( self, message ):
@@ -78,19 +77,19 @@ class Client( threading.Thread ):
     def run( self ):
         print "New thread started! %s" % threading.currentThread()
         global accountant
-        
+
         buff = "kaka"
         pre_mode = True
-                
+
         while buff != "" and self.running:
             buff = self.sock.recv( 1024 )
             resp = ""
-            
+
             if pre_mode:
                 #print "data: %s" % repr( buff )
-                
+
                 if buff[0] == "\x02" and self.user == "":
-                    # Parse 0x02 package 
+                    # Parse 0x02 package
                     print "init 0x02"
                     name = self.parse_string( buff[3:] )
                     print "got name: '%s'" % name
@@ -106,12 +105,12 @@ class Client( threading.Thread ):
                         print "Dropping it since unknown"
                         self.send_kick( messages['not-whitelisted'] )
                         break
-                    
+
                     else:
                         # check if jailed
                         self.jailed = self.api.jailed
                         print "jailed? %s" % self.jailed
-                                                
+
                         # prepare for proxy mode
                         pre_mode = False
                         self.user = name
@@ -129,7 +128,7 @@ class Client( threading.Thread ):
 
                 else:
                     print "unknown data: %s" % repr( buff )
-                
+
                 if resp:
                     self.lowlevel_send( resp )
 
@@ -145,10 +144,8 @@ class Client( threading.Thread ):
             pass
 
         if self.user != "":
-            self.time_signout = int( time.strftime( "%s" ) )
-            accountant.commit_timelog( self.user,
-                                       self.time_signin,
-                                       self.time_signout )
+            # log out
+            self.api.logout( self.user )
 
     def proxy_mode( self ):
         print "Entering proxy mode for %s" % self.user
@@ -168,13 +165,13 @@ class Client( threading.Thread ):
         # make handshake
         print "sending handshakes to server"
         self.server_sock.send( "\x02%s" % self.build_string( self.user ) )
-        
+
         # inputs
         inputs = [ self.sock, self.server_sock ] # add server sock
-        
+
         # enter select loop
         first_pos_and_look = True
-        
+
         while self.running: # break when done
             inp_ready, out_ready, xtr_ready = select.select( inputs, [], [] )
 
@@ -197,7 +194,7 @@ class Client( threading.Thread ):
                         self.in_game = True
                         self.send_motd_or_warning()
                         self.send_online_users()
-                        
+
                     elif buff[0] == '\x03':
 
                         chat_str = self.parse_string( buff[1:] )[1:]
@@ -219,22 +216,12 @@ class Client( threading.Thread ):
                         self.send_chat( messages['jail'], colours['red'] )
                         continue
 
-                        
                     if buff:
                         self.server_sock.sendall( buff ) # send to the server
-                    
-                                        
-                elif inp == self.server_sock:
-                    buff = self.server_sock.recv( 1024 )
 
-                    #if buff[0] == '\x32': # pre-chunk
-                        #x, z, mode = struct.unpack( ">iih", buff[1:] )
-                        #print "pre-chunk mode %d at %d,%d" %( mode, x, z )
-                    #    print "pre-chunk? %d" % len( buff )
 
-                    #elif buff[0] == '\x33': # chunk
-                    #    print "chunk? %d" % len( buff )
-                    
+                    elif inp == self.server_sock:
+                        buff = self.server_sock.recv( 1024 )
 
                     if not buff:
                         print "server quit %s" % self.user
@@ -245,9 +232,6 @@ class Client( threading.Thread ):
                     # Just send all trough
                     self.lowlevel_send( buff )
 
-        # log out
-        self.api.logout( self.user )
-
         # close server con
         self.server_sock.shutdown( socket.SHUT_RDWR )
         self.server_sock.close()
@@ -255,11 +239,11 @@ class Client( threading.Thread ):
     def send_online_users( self ):
         online_users = map( lambda x: x.user, connections )
         user_buf = list()
-         
+
         for pos_user in online_users:
             if pos_user:
                 user_buf.append( pos_user )
-                
+
                 if len( user_buf ) == 6:
                     self.send_chat( "Online: %s" %(
                         ", ".join( user_buf ) ),
@@ -281,7 +265,7 @@ class Client( threading.Thread ):
             # This user got a warning currently
             self.send_chat( self.api.warning, colours['red'] )
             return
-        
+
         if os.path.isfile( "motd" ):
             rows = open( "motd", 'r' ).readlines()[:1]
 
@@ -329,7 +313,7 @@ class Client( threading.Thread ):
         aliases[cmd]( args )
 
         return True
-        
+
 
     def chat_cmd_who( self, args ):
         self.send_online_users()
@@ -352,7 +336,7 @@ class WohaAPI:
         if debug:
             print "API: %s -> %s" %( url, ret )
         return ret
-    
+
     def auth( self, username ):
         resp = self.__llget( self.url + "auth/" + username + "/" )
         flags = resp.split( "|" )[1:]
@@ -368,7 +352,7 @@ class WohaAPI:
             self.whitelisted = True
 
             for flag in flags:
-                if flag == "JAILED": 
+                if flag == "JAILED":
                     self.jailed = True
                 elif flag.startswith( "WARNING" ):
                     self.warning = flag.split( ':' )[1]
@@ -385,8 +369,8 @@ class WohaAPI:
         if resp == "PONG":
             return True
         return False
-                
-        
+
+
 class Accountant( threading.Thread ):
     def __init__( self ):
         # add db stuff here later?
@@ -406,16 +390,6 @@ class Accountant( threading.Thread ):
                             # write who is online
         while not self.stop_it:
             time.sleep( 1 ) # really enough
-            self.lock.acquire()
-
-            tlog = open( "timelog.csv", "a+" ) # hack
-            
-            while self.time_log:
-                log_row = self.time_log.pop()
-                tlog.write( "%s,%d,%d\n" % log_row ) # hack
-                # TODO: Do SQL magic
-            tlog.close() # hack
-            self.lock.release()
 
             online_counter -= 1
             if online_counter <= 0:
@@ -424,18 +398,6 @@ class Accountant( threading.Thread ):
                 self.wohaapi_ping()
 
         print "Accountant dieing"
-            
-    def commit_timelog( self, who, start, stop ):
-        """Adds the it to the time log so accountant can soon add it
-        to the database"""
-        self.lock.acquire()
-
-        # ignore stuff under 15sec since it isn't really anything good
-        if( stop - start > 15 ):
-            self.time_log.append( ( who, start, stop ) )
-        self.write_online_list() # still force an update here
-        
-        self.lock.release()
 
     def get_online( self ):
         return map( lambda x: x.user,
@@ -444,38 +406,32 @@ class Accountant( threading.Thread ):
     def write_online_list( self ):
         self.time_lock.acquire()
         online_users = self.get_online()
-        
+
         if online_users and self.last_seen != online_users:
             print "Accountant sees that %s is online, and is writing that down" %( ", ".join( online_users ) )
-        
+
         # hack
         if self.last_seen != online_users:
             online_file = open( "online", 'w+' )
             self.last_seen = list()
-            
+
             for pos_user in online_users:
                 if pos_user:
                     online_file.write( pos_user + "\n" )
                     self.last_seen.append( pos_user )
             online_file.close()
-        
+
         self.time_lock.release()
 
     def wohaapi_ping( self ):
         print "Accountant PINGs wohaapi server"
         self.time_lock.acquire()
         online_users = self.get_online()
-        
+
         if online_users:
             self.api.ping( online_users )
-            
-        self.time_lock.release()
 
-    def save_position( self, who, pos ):
-        # FIXME: write both x, y, z in absolute (meter) and in chunks /16.
-        # maybe?
-        pass
-    
+        self.time_lock.release()
 
 
 ## helpers
@@ -498,7 +454,7 @@ colours = { 'black': '0', 'dark blue': '1', 'dark green': '2',
             'gold': '6', 'gray': '7', 'dark gray': '8',
             'blue': '9', 'bright green': 'a', 'cyan': 'b',
             'red': 'c', 'pink': 'd', 'yellow': 'e', 'white': 'f' }
-    
+
 # --- main ---
 
 # Read in config file
@@ -546,10 +502,10 @@ try:
         print "New connection from %s:%d" %( client_stuff[1][0], client_stuff[1][1] )
         connections.append( Client( client_stuff, server_info ) )
         connections[-1].start()
-        
+
         connections = filter( lambda x: x.isAlive(), connections )
         print "%d active threads" % threading.activeCount()
-        
+
 except KeyboardInterrupt:
     print "Keyboard smashed the place up, so we have to kill threads now"
     accountant.stop_it = True
