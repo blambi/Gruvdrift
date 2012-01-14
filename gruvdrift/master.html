@@ -1,3 +1,4 @@
+{% load menutags %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -20,17 +21,16 @@
     </div>
 
     <ul class="menu">
-      <li class="currentpage menu"><a href="/">Start</a></li>
-
-      <li class="menu"><a href="/online/">Online etc</a></li>
-      <li class="menu"><a href="/map/">Map</a></li>
-      <li class="menu"><a href="/market/">Market</a></li>
-      <li class="menu"><a href="/wiki/">Wiki</a>
+      <li class="menu {% menu_current request '/' %}"><a href="/">Start</a></li>
+      <li class="menu {% menu_current request '/online/' %}"><a href="/online/">Online etc</a></li>
+      <li class="menu {% menu_current request '/map/' %}"><a href="/map/">Map</a></li>
+      <li class="menu {% menu_current request '/market/' %}"><a href="/market/">Market</a></li>
+      <li class="menu {% menu_current request '/wiki/' %}"><a href="/wiki/">Wiki</a>
 
       {% if user.is_authenticated %}
       <li class="menu"><a href="/auth/">Logout {{user}}</a>
       {% else %}
-      <li class="menu"><a href="/auth/">Login</a>
+      <li class="menu {% menu_current request '/auth/' %}"><a href="/auth/">Login</a>
       {% endif %}
     </ul>
 
