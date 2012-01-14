@@ -292,6 +292,7 @@ class Client( threading.Thread ):
         if not motd and os.path.isfile( "fortune" ):
             fortunes = filter( lambda x: len( x ) > 5,
                         open( "fortune", 'r' ).readlines() )
+            fortunes = map(lambda x: x.rstrip('\n'), fortunes)
 
             if fortunes: # only if fortunes isn't empty
                 self.send_chat( random.choice( fortunes ), colours['cyan'] )
