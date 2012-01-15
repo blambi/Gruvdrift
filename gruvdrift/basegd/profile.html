@@ -6,8 +6,11 @@
 
 <img src="/static/cache/{{ profile.user.username }}.png" /><br />
 
-Invited by: {{ profile.invited_by }}<br \>
+Invited by: <a href="{{ profile.invited_by }}">{{ profile.invited_by }}</a><br \>
 Total time played: {{ profile.get_total_playtime }}<br \>
+Has invited: {% for p in invitees %}
+  <a href="/profile/{{ p.user.username }}">{{ p.user.username }}</a>, 
+{% endfor %}<br />
 
 {% if profile.unlocked %}
     {% if profile.banned or profile.whitelisted %}

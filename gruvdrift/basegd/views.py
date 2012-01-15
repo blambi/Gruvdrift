@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth import logout, authenticate, login
 from django.template import RequestContext
 from django.contrib.auth.models import User
+from basegd.models import UserProfile
 import libunlock
 
 # Create your views here.
@@ -101,5 +102,7 @@ def profile( req, username ):
     user = get_object_or_404( User, username__iexact=username )
     profile = user.get_profile()
 
-    c = RequestContext( req, { 'profile': profile } )
+    invitees = UserProfile.objects.filter( invited_by = user )
+    
+    c = RequestContext( req, { 'profile': profile, 'invitees': invitees } )
     return render_to_response( "basegd/profile.html", c )
