@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     (r'^online/$', 'wohaapi.views.online' ),
     (r'^profile/(?P<username>\w+)$', 'basegd.views.profile' ),
     (r'^map/$', 'maps.views.index' ),
+    (r'^map/(?P<view>\w+)$', 'maps.views.index' ),
     (r'^$', 'news.views.index'),
 )
 

@@ -3,6 +3,9 @@
 {% block page_title %}Map{% endblock %}
 
 {% block content %}
+<div id="beforemap">
+View the <a href="/map/{{ otherview }}">{{ otherview }}</a> map instead.
+</div>
 <div id="map">
   <a name="map"></a>
   {% for row in parts %}
