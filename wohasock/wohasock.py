@@ -91,7 +91,7 @@ class Client( threading.Thread ):
                 if buff[0] == "\x02" and self.user == "":
                     # Parse 0x02 package 
                     print "init 0x02"
-                    name = self.parse_string( buff[3:] )
+                    name, servername = self.parse_string( buff[3:] ).split(';', 1)
                     print "got name: '%s'" % name
 
                     self.api.auth( name )
