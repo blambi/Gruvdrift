@@ -4,19 +4,10 @@
 
 {% block content %}
 <div id="beforemap">
-View the <a href="/map/{{ otherview }}">{{ otherview }}</a> map instead.
 </div>
 <div id="map">
   <a name="map"></a>
-  {% for row in parts %}
-    {% for part in row %}
-      {% if part.center %}
-        <img class="mappart" src="/static/{{ part.img }}"/>
-      {% else %}
-        <a href="?x={{part.x}}&amp;y={{part.y}}#map"><img class="mappart" src="/static/{{ part.img }}"/></a>
-      {% endif %}
-    {% endfor %}
-  {% endfor %}
+  <iframe height="600" width="100%" src="http://www.gruvdrift.se:8123/"></iframe> 
 </div>
 <div id="aftermap"> </div>
 {% endblock %}
