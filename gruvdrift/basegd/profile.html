@@ -9,7 +9,11 @@
 Invited by: <a href="{{ profile.invited_by }}">{{ profile.invited_by }}</a><br \>
 Total time played: {{ profile.get_total_playtime }}<br \>
 Has invited: {% for p in invitees %}
-  <a href="/profile/{{ p.user.username }}">{{ p.user.username }}</a>, 
+  {% if forloop.last %}
+    <a href="/profile/{{ p.user.username }}">{{ p.user.username }}</a>.
+  {% else %}
+    <a href="/profile/{{ p.user.username }}">{{ p.user.username }}</a>, 
+  {% endif %}
 {% endfor %}<br />
 
 {% if profile.unlocked %}

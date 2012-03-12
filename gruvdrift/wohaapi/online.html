@@ -10,7 +10,11 @@
   no one :(
   {% endif %}
   {% for player in online_users %}
-  <a href="/profile/{{ player.username }}">{{ player.username }}</a>, 
+    {% if forloop.last %}
+      <a href="/profile/{{ player.username }}">{{ player.username }}</a>.
+    {% else %}
+      <a href="/profile/{{ player.username }}">{{ player.username }}</a>, 
+    {% endif %}
   {% endfor %}
 </p>
 
