@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 
     # pile of placeholders
-    (r'^market/.*', 'basegd.views.placeholder' ),
+    #(r'^market/.*', 'basegd.views.placeholder' ),
 
     # our homebaked site
     (r'^auth/$', 'basegd.views.auth'),
