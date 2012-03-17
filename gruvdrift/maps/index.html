@@ -1,13 +1,42 @@
 {% extends "master.html" %}
 
+{% block head %}<link href="/static/css/map.css" rel="stylesheet" type="text/css" />{% endblock %}
 {% block page_title %}Map{% endblock %}
 
 {% block content %}
-<div id="beforemap">
-</div>
 <div id="map">
   <a name="map"></a>
   <iframe height="600" width="100%" src="http://www.gruvdrift.se:8123/?{{options}}"></iframe> 
 </div>
-<div id="aftermap"> </div>
+
+<form method="get">
+  <label for="x">X:</lable>
+  <input type="number" name="x">
+  <label for="z">Z:</lable>
+  <input type="number" name="z">
+  <label for="world">World:</lable>
+  <select name="world">
+    <option value="GruvDrift">Normal</option>
+    <option value="GruvDrift_nether">Nether</option>
+    <option value="skylands">Skylands</option>
+  </select>
+  <label for="map">Map:</lable>
+  <select name="map">
+    <option value="flat">Flat / Top down</option>
+    <option value="surface">Surface / Isometric</option>
+  </select>
+  <label for="zoom">Zoom:</lable>
+  <select name="zoom">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+    <option>5</option>
+    <option>6</option>
+    <option>7</option>
+    <option>8</option>
+  </select>
+  <input type="submit" value="View"/>
+</form>
+
 {% endblock %}
