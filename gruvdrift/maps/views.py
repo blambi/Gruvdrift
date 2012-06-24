@@ -11,12 +11,12 @@ def index( req ):
     if req.GET.has_key('map'):
         opts.append("mapname=%s" % req.GET['map'])
 
-    if req.GET.has_key('x'):
+    if req.GET.has_key('x') and len(req.GET['x'] ) > 0:
         opts.append("x=%d" % int(req.GET['x']))
     else:
         opts.append("x=0")
 
-    if req.GET.has_key('z'):
+    if req.GET.has_key('z') and len(req.GET['z'] ) > 0:
         opts.append("z=%d" % int(req.GET['z']))
     else:
         opts.append("z=0")
