@@ -11,6 +11,13 @@ Plugins especally developed for this server is
  - [WohaPlug](http://github.com/blambi/WohaPlug)
 
 Historically
---------
+------------
 We used a python based proxy called wohasock for whitelisting etc, now we have migrated to
 [WohaPlug](http://github.com/blambi/WohaPlug).
+
+
+Artwork
+------- 
+
+The dirt and grass background are based on textures in
+[Isabella texture pack](http://www.minecraftforum.net/topic/242175-16x125-isabella-12v3-1-year-anniversary-of-isabella-april-4-2012/)
