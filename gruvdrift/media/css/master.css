@@ -172,8 +172,8 @@ a > img.mappart
 #Logo
 {
     font-size: 5em;
-text-shadow: 0px 0px 5px #000000;
-filter: dropshadow(color=#000000, offx=0, offy=0);
+    text-shadow: 0px 0px 5px #696969;
+    filter: dropshadow(color=#696969, offx=0, offy=0);
 }
 
 h1, h2, h3, .menu, #Logo
@@ -207,4 +207,15 @@ h1, h2, h3, .menu, #Logo
 {
     float: left;
     max-width: 700px;
+}
+
+#Top
+{
+    background-image: url("/static/img/bg-top.png");
+    width: 100%;
+    height: 128px;
+    z-index: -10;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
