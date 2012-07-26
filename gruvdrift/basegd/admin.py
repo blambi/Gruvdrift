@@ -9,6 +9,8 @@ class UserProfileInline(admin.TabularInline):
     max_num = 1
    
 class CustomUserAdmin(UserAdmin):
+    list_display = UserAdmin.list_display + ( 'date_joined', )
+    ordering = ['-date_joined']
     inlines = [UserProfileInline,]
        
 admin.site.unregister(User)
