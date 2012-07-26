@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import Image, sys, urllib, StringIO, time
+import Image, sys, urllib, StringIO
 
 
 class Mugshooter:
