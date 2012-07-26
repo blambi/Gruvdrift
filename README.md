@@ -10,6 +10,12 @@ Plugins especally developed for this server is
  - [WeepingEndermen](http://github.com/blambi/WeepingEndermen)
  - [WohaPlug](http://github.com/blambi/WohaPlug)
 
+Sub projects
+------------
+mc-mugshot is a little python script intended to run as a cronjob. It
+creates the player skin based avatars for the site.
+
+
 Historically
 ------------
 We used a python based proxy called wohasock for whitelisting etc, now we have migrated to
