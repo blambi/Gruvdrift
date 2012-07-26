@@ -5,4 +5,5 @@ urlpatterns = patterns(
     url( r'^auth/(?P<username>\w+)/$', 'auth' ),
     url( r'^ping/(?P<users>[|\w]+)$', 'ping' ),
     url( r'^logout/(?P<username>\w+)/$', 'logout' ),
+    url( r'^list/(?P<what>\w+)$', 'list' ),
     )

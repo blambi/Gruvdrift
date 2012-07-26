@@ -97,6 +97,21 @@ def logout( req, username ):
     ret = doit( username )
     return HttpResponse( ret )
 
+def list( req, what ):
+    """Returns a list of either, online user or all active users"""
+    if what == 'online':
+        users = map( lambda gs: gs.user.username,
+                     filter( lambda gs: not gs.timedout(),
+                             Game_Sessions.objects.filter( online = True )
+                             ))
+    else:
+        users = map( lambda p: ( p.username, p.get_profile().get_total_playtime(), p.get_profile().get_total_playtime_int(), p.get_profile().banned ),
+                     filter( lambda p: p.get_profile().unlocked and p.get_profile().whitelisted,
+                             User.objects.all() ) )
+        users = map( lambda p: p[0], sorted( users, cmp=lambda x,y: y[2] - x[2] ) )
+
+    return HttpResponse( ', '.join( users ) )
+
 # Non API pages
 def online( req ):
     online_users = map( lambda gs: gs.user,
