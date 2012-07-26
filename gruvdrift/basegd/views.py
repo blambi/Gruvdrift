@@ -5,6 +5,8 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from basegd.models import UserProfile
 import libunlock
+import settings
+import os
 
 # Create your views here.
 def index( req ):
@@ -103,6 +105,11 @@ def profile( req, username ):
     profile = user.get_profile()
 
     invitees = UserProfile.objects.filter( invited_by = user )
+
+    if os.path.exists( settings.MEDIA_ROOT + 'cache/' + profile.user.username + '.png' ):
+        image_name = profile.user.username
+    else:
+        image_name = 'char'
     
-    c = RequestContext( req, { 'profile': profile, 'invitees': invitees } )
+    c = RequestContext( req, { 'profile': profile, 'invitees': invitees, 'image_name': image_name } )
     return render_to_response( "basegd/profile.html", c )

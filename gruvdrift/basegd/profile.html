@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<img src="/static/cache/{{ profile.user.username }}.png" /><br />
+<img src="/static/cache/{{ image_name }}.png" /><br />
 
 Invited by: <a href="{{ profile.invited_by }}">{{ profile.invited_by }}</a><br \>
 Total time played: {{ profile.get_total_playtime }}<br \>
