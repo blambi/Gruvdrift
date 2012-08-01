@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from wohaapi.models import Game_Sessions
 from django.db.models.signals import post_save
+from django.db.models import Sum
 # Create your models here.
 
 class UserProfile(models.Model):
@@ -18,16 +19,14 @@ class UserProfile(models.Model):
     def get_total_playtime_int( self ):
         """Returns an INT with the total play time, good for sorting"""
         try:
-            gs = Game_Sessions.objects.filter( user=self.user ).order_by( 'logged_in' )
+            reply = Game_Sessions.objects.filter( user=self.user ).aggregate(Sum('duration'))
         except:
-            return None # NO playtime to report
-
-        total_playtime = 0
-
-        for g in gs:
-            total_playtime += g.duration
-
-        return int( total_playtime )
+            return 0 # NO playtime to report
+        
+        if reply["duration__sum"] == None:
+          return 0
+        
+        return reply["duration__sum"]
     
     def get_total_playtime( self ):
         total_playtime = self.get_total_playtime_int()
@@ -41,8 +40,12 @@ class UserProfile(models.Model):
         else:
             ret = "%d hour, %d minutes and %d seconds." %( hours, mins, secs )
         return ret
-
-
+        
+    def run_test( self ):
+        prof = hotshot.Profile("native_playtime.prof")
+        
+        
+    
 # Automatically create user profiles
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
