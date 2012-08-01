@@ -40,12 +40,7 @@ class UserProfile(models.Model):
         else:
             ret = "%d hour, %d minutes and %d seconds." %( hours, mins, secs )
         return ret
-        
-    def run_test( self ):
-        prof = hotshot.Profile("native_playtime.prof")
-        
-        
-    
+
 # Automatically create user profiles
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
