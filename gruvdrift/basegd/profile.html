@@ -8,6 +8,8 @@
 
 Invited by: <a href="{{ profile.invited_by }}">{{ profile.invited_by }}</a><br \>
 Total time played: {{ profile.get_total_playtime }}<br \>
+Average session length: {{ profile.get_average_playtime }}<br \>
+Number of sessions: {{ profile.get_number_of_sessions }}<br \>
 Has invited: {% for p in invitees %}
   {% if forloop.last %}
     <a href="/profile/{{ p.user.username }}">{{ p.user.username }}</a>.

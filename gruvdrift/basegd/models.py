@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from wohaapi.models import Game_Sessions
 from django.db.models.signals import post_save
 from django.db.models import Sum
+from django.db.models import Avg
+from django.db.models import Q
 # Create your models here.
 
 class UserProfile(models.Model):
@@ -28,18 +30,65 @@ class UserProfile(models.Model):
         
         return reply["duration__sum"]
     
+    def get_average_playtime_int( self ):
+        """Returns an INT with the average play time for all sessions"""
+        try:
+            reply = Game_Sessions.objects.filter( ~Q(duration = 0), user=self.user ).aggregate(Avg('duration'))
+        except:
+            return 0 # NO playtime to report
+        
+        if reply["duration__avg"] == None:
+          return 0
+        
+        return reply["duration__avg"]
+    
+    def get_number_of_sessions( self ):
+        """Returns an INT with the count of all sessions"""
+        try:
+            result = Game_Sessions.objects.filter( ~Q(duration = 0), user=self.user ).count()
+        except:
+            return 0 # NO playtime to report
+        
+        return result
+    
     def get_total_playtime( self ):
-        total_playtime = self.get_total_playtime_int()
+        return self.build_time_string( self.get_total_playtime_int())
+    
+    def get_average_playtime( self ):
+        return self.build_time_string( self.get_average_playtime_int())
+      
+    def build_time_string( self, total_seconds ):
         # Will just build a string then
-        hours = total_playtime / 3600
-        mins  = total_playtime / 60 % 60
-        secs  = total_playtime % 60
-
-        if hours > 1 or hours == 0:
-            ret = "%d hours, %d minutes and %d seconds." %( hours, mins, secs )
+        hours = int(total_seconds / 3600)
+        mins  = int(total_seconds / 60 % 60)
+        secs  = int(total_seconds % 60)
+        
+        hour_text = "hours"
+        if hours == 1:
+          hour_text = "hour"
+        
+        min_text = "minutes"
+        if mins == 1:
+          min_text = "minute"
+        
+        sec_text = "seconds"
+        if secs == 1:
+          sec_text = "second"
+        
+        ret = "";
+        if hours > 0:
+          ret += "%d %s, " %(hours, hour_text)
+        if hours > 0 or mins > 0:
+          ret += "%d %s and " %(mins, min_text)
+        if hours > 0 or mins > 0 or secs > 0:
+          ret += "%d %s" %(secs, sec_text)
+        if ret != "":
+          ret += "."
         else:
-            ret = "%d hour, %d minutes and %d seconds." %( hours, mins, secs )
+          ret = "None"
+        
         return ret
+      
 
 # Automatically create user profiles
 def create_user_profile(sender, instance, created, **kwargs):
