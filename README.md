@@ -1,14 +1,8 @@
 Gruvdrift.se
 ============
 A web and minecraft interface (using a kind of rest api) for the
-community at gruvdrift.se.
+community at gruvdrift.nu.
 
-Plugins
--------
-Plugins especally developed for this server is
-
- - [WeepingEndermen](http://github.com/blambi/WeepingEndermen)
- - [WohaPlug](http://github.com/blambi/WohaPlug)
 
 Sub projects
 ------------
@@ -18,9 +12,12 @@ creates the player skin based avatars for the site.
 
 Historically
 ------------
+
 We used a python based proxy called wohasock for whitelisting etc, now we have migrated to
 [WohaPlug](http://github.com/blambi/WohaPlug).
 
+That was fine until bukkit died a horrible death, so now we will have
+to use rcon to sync the whitelist.
 
 Artwork
 ------- 
