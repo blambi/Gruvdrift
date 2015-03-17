@@ -122,7 +122,7 @@ INSTALLED_APPS = (
     'basegd',
     'news',
     'wohaapi',
-    'maps',
+    #'maps',
     'wiki',
 )
 
